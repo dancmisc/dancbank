@@ -1,0 +1,27 @@
+@(message: String, accountForm: Form[Account])
+@implicitFieldConstructor = @{ helper.FieldConstructor(twitterBootstrapInput.render) }
+
+@main("Welcome to Play 2.0") {
+
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a id="titleLink" class="brand" href="/">@message.toUpperCase</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <ul id="accounts"></ul>
+
+        @helper.form(action = routes.Application.addAccount(), 'class -> "well form-horizontal") {
+            @helper.inputText(accountForm("name"), '_label -> "Name")
+            @helper.inputText(accountForm("address"), '_label -> "Address")
+            @helper.inputText(accountForm("phone"), '_label -> "Phone Number")
+            <div class="controls">
+                <input type="submit" class="btn btn-primary"/>
+            </div>
+        }
+    </div>
+
+}

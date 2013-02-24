@@ -3,7 +3,7 @@ package models;
 import play.data.validation.Constraints;
 
 /**
- * Represents financial operations (e.g. lodgements, withdrawals)
+ * Represents financial operations (e.g. lodgements, withdrawals) used in forms
  * @author danc
  */
 public class FinancialOperation {

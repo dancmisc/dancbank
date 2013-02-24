@@ -6,15 +6,20 @@ import java.util.List;
 
 import models.Account;
 import models.FinancialOperation;
+import models.Transaction;
+import models.Transfer;
 import play.data.Form;
 import play.db.ebean.Model;
 import play.mvc.Controller;
 import play.mvc.Result;
+import util.TransactionHelper;
 import views.html.accountsummary;
 import views.html.createaccount;
 import views.html.index;
 import views.html.listaccounts;
+import views.html.listtransactions;
 import views.html.lodgement;
+import views.html.transfer;
 import views.html.withdrawal;
 
 
@@ -31,7 +36,8 @@ public class Application extends Controller {
 	
 	public static Result accountSummary(String accountNumber) {
 		Account acc = Account.find.where().eq("accountNumber", accountNumber).findUnique();
-		return ok(accountsummary.render("Account Summary", acc));
+		List<Transaction> txList = Transaction.find.where().eq("accountNumber", accountNumber).findList();
+		return ok(accountsummary.render("Account Summary", acc, txList));
 	}
 
 	public static Result createAccount() {
@@ -45,6 +51,11 @@ public class Application extends Controller {
 		} else {
 			Account acc = form.get();
 			acc.save();
+		
+			// log a transaction for first lodgement, if it exists
+			if (acc.balance > 0) {
+				TransactionHelper.logLodgement(acc,  acc.balance);
+			}
 			return redirect(routes.Application.accounts());
 		}
 		
@@ -61,6 +72,10 @@ public class Application extends Controller {
 
 	public static Result withdrawal() {
 		return ok(withdrawal.render("Make Withdrawal", form(FinancialOperation.class)));
+	}
+	
+	public static Result transfer() {
+		return ok(transfer.render("Make Transfer", form(Transfer.class)));
 	}
 
 	// TODO test: only positive amounts
@@ -82,6 +97,9 @@ public class Application extends Controller {
 			acc.balance += op.amount;
 			acc.save();
 			
+			// create transaction record
+			TransactionHelper.logLodgement(acc,  op.amount);
+			
 			return redirect(routes.Application.accounts());
 		}
 	
@@ -89,8 +107,7 @@ public class Application extends Controller {
 
 	// TODO test: only positive amounts
 	// TODO test: account exists
-	// TODO test: balance increases
-	// TODO create transaction record
+	// TODO test: balance decreases
 	public static Result makeWithdrawal() {
 		Form<FinancialOperation> form = form(FinancialOperation.class).bindFromRequest();
 		
@@ -105,10 +122,43 @@ public class Application extends Controller {
 			// update balance and save
 			acc.balance -= op.amount;
 			acc.save();
+		
+			// create transaction record
+			TransactionHelper.logWithdrawal(acc,  op.amount);
 			
 			return redirect(routes.Application.accounts());
 		}
 	
 	}
+	
+	public static Result makeTransfer() {
+		Form<Transfer> form = form(Transfer.class).bindFromRequest();
+		if (form.hasErrors()) {
+			return badRequest(transfer.render("Make Transer", form));
+		} else {
+			Transfer op = form.get();
+	
+			// get the two accounts
+			Account src = Account.find.where().eq("accountNumber", op.sourceAccount).findUnique();
+			Account dst = Account.find.where().eq("accountNumber", op.destinationAccount).findUnique();
+			
+			// TODO txn handling here
+			// update balances and save
+			src.balance -= op.amount;
+			dst.balance += op.amount;
+			src.save();
+			dst.save();
+		
+			// create transaction record
+			TransactionHelper.logTransfer(src, dst, op.amount);
+			
+			return redirect(routes.Application.accounts());
+		}
+	}
 
+	
+	public static Result transactions() {
+		List<Transaction> txList = Transaction.find.all();
+		return ok(listtransactions.render("Transactions",  txList));
+	}
 }

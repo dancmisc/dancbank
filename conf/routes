@@ -6,13 +6,16 @@
 GET     /                           controllers.Application.index()
 GET     /accountlist                controllers.Application.accounts()
 GET     /lodgement                	controllers.Application.lodgement()
+GET     /transactions               controllers.Application.transactions()
 GET     /withdrawal                	controllers.Application.withdrawal()
+GET     /transfer                	controllers.Application.transfer()
 GET     /accounts                   controllers.Application.getAccounts()
 GET		/accounts/:accno			controllers.Application.accountSummary(accno: String)
 GET    	/createacc                  controllers.Application.createAccount()
 POST    /account                    controllers.Application.addAccount()
 POST	/lodgement					controllers.Application.makeLodgement()
 POST	/withdrawal					controllers.Application.makeWithdrawal()
+POST	/transfer					controllers.Application.makeTransfer()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

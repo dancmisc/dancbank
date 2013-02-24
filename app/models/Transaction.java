@@ -4,33 +4,25 @@ import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
-import play.data.validation.Constraints;
-
+import play.db.ebean.Model;
 
 @Entity
-public class Transaction {
+public class Transaction extends Model {
 
-		@Id
-		public String id;
-		
-		@Constraints.Required
-		public String type;
-	    
-		@Constraints.Required
-		public Double amount;
+	@Id
+	public String id;
+
+	public String transactionType;
 	
-		@Constraints.Required
-		@OneToOne
-		public Account source;
+	public String reference;
 
-		@Constraints.Required
-		@OneToOne
-		public Account destination;
-		
-		@Constraints.Required
-		public Date date;
-		
-		
+	public Double amount;
+
+	public String accountNumber;
+
+	public Date date;
+
+	public static Finder<String, Transaction> find = new Finder<String, Transaction>(String.class, Transaction.class);
+
 }

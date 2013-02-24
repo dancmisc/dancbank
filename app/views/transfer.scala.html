@@ -1,0 +1,32 @@
+@(message: String, transferForm: Form[Transfer])
+@implicitFieldConstructor = @{ helper.FieldConstructor(twitterBootstrapInput.render) }
+
+@main("Welcome to Play 2.0") {
+
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a id="titleLink" class="brand" href="/">@message.toUpperCase</a>
+            </div>
+        </div>
+    </div>
+
+	 @if(transferForm.hasGlobalErrors) { 
+     	<div class="alert-error">
+     	@transferForm.globalError.message
+     	</div>
+     }
+
+    <div class="container">
+        @helper.form(action = routes.Application.makeTransfer(), 'class -> "well form-horizontal") {
+            @helper.inputText(transferForm("sourceAccount"), '_label -> "Source Account Number")
+            @helper.inputText(transferForm("destinationAccount"), '_label -> "Destination Account Number")
+            @helper.inputText(transferForm("amount"), '_label -> "Amount")
+            <input type="hidden" name="type" value="transfer" />
+            <div class="controls">
+                <input type="submit" value="Make Lodgement" class="btn btn-primary"/>
+            </div>
+        }
+    </div>
+
+}

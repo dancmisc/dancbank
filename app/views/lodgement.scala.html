@@ -11,6 +11,12 @@
         </div>
     </div>
 
+	 @if(lodgementForm.hasGlobalErrors) { 
+     	<div class="alert-error">
+     	@lodgementForm.globalError.message
+     	</div>
+     }
+
     <div class="container">
         @helper.form(action = routes.Application.makeLodgement(), 'class -> "well form-horizontal") {
             @helper.inputText(lodgementForm("accountNumber"), '_label -> "Account Number")

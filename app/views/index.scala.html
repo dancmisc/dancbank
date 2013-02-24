@@ -1,7 +1,26 @@
 @(message: String)
 
-@main("Welcome to Play 2.0") {
-    
-    @play20.welcome(message, style = "Java")
-    
+@main("Simple Banking Application -- Brandtone Tech Test") {
+
+
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a id="titleLink" class="brand" href="/">@message.toUpperCase</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+	    <h4>Choose Action:</h4>
+	   <ul>
+	   	<li><a href="./accountlist">View / Create Accounts</a></li>
+	   	<li><a href="./lodgement">Make Lodgement</a></li>
+	   	<li><a href="./withdrawal">Make Withdrawal</a></li>
+	   	<li>Make Transfer</li>
+	   	<li>View Transactions</li>
+	   </ul>
+    </div>
+
+   
 }

@@ -1,8 +1,6 @@
 package models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import play.data.validation.Constraints;
@@ -14,10 +12,12 @@ public class Account extends Model {
     @Id
     public String id;
 
-//    @Column(unique=true)
-//    @GeneratedValue(strategy=GenerationType.AUTO)
-//    @Constraints.Required
-//    public String accountNumber;
+    @Column(unique=true)
+    @Constraints.Required
+    public String accountNumber;
+   
+    @Constraints.Required
+    public Double balance;
     
     @Constraints.Required
     public String name;
@@ -27,5 +27,9 @@ public class Account extends Model {
     
     @Constraints.Required
     public String phone;
-	
+
+    public static Finder<String ,Account> find = new Finder<String, Account>(
+    	    String.class, Account.class
+    	  );  
+    
 }

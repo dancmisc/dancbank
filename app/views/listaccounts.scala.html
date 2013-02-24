@@ -1,4 +1,4 @@
-@(message: String, accountForm: Form[Account], accounts: List[Account])
+@(message: String, accounts: List[Account])
 @implicitFieldConstructor = @{ helper.FieldConstructor(twitterBootstrapInput.render) }
 
 @main("Welcome to Play 2.0") {
@@ -13,19 +13,8 @@
 
     <div class="container">
 
-
-        @helper.form(action = routes.Application.addAccount(), 'class -> "well form-horizontal") {
-            @helper.inputText(accountForm("name"), '_label -> "Name")
-            @helper.inputText(accountForm("accountNumber"), '_label -> "Account Number")
-            @helper.inputText(accountForm("balance"), '_label -> "Opening Balance")
-            @helper.inputText(accountForm("address"), '_label -> "Address")
-            @helper.inputText(accountForm("phone"), '_label -> "Phone Number")
-            
-            <div class="controls">
-                <input type="submit" value="Create Account" class="btn btn-primary"/>
-            </div>
-        }
-       
+		<a href="./createacc" class="btn btn-primary ">Create New</a>
+		
         <!-- list existing accounts --> 
         <table class="table table-bordered">
         	<tr>

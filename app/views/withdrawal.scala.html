@@ -1,0 +1,31 @@
+@(message: String, withdrawalForm: Form[FinancialOperation])
+@implicitFieldConstructor = @{ helper.FieldConstructor(twitterBootstrapInput.render) }
+
+@main("Welcome to Play 2.0") {
+
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a id="titleLink" class="brand" href="/">@message.toUpperCase</a>
+            </div>
+        </div>
+    </div>
+
+	 @if(withdrawalForm.hasGlobalErrors) { 
+     	<div class="alert-error">
+     	@withdrawalForm.globalError.message
+     	</div>
+     }
+
+    <div class="container">
+        @helper.form(action = routes.Application.makeWithdrawal(), 'class -> "well form-horizontal") {
+            @helper.inputText(withdrawalForm("accountNumber"), '_label -> "Account Number")
+            @helper.inputText(withdrawalForm("amount"), '_label -> "Amount")
+            <input type="hidden" name="type" value="withdrawal" />
+            <div class="controls">
+                <input type="submit" value="Make Withdrawal" class="btn btn-primary"/>
+            </div>
+        }
+    </div>
+
+}

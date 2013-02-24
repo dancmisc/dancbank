@@ -1,3 +1,9 @@
 body {
     padding-top: 50px;
 }
+
+div.navbar-inner {
+  	background-image: url("../img/dansbank.png");
+  	background-repeat: no-repeat;
+  	background-position:right; 
+}

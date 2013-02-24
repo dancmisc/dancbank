@@ -161,4 +161,9 @@ public class Application extends Controller {
 		List<Transaction> txList = Transaction.find.all();
 		return ok(listtransactions.render("Transactions",  txList));
 	}
+	
+	public static Result listTransactions(String accountNumber) {
+		List<Transaction> txList = Transaction.find.where().eq("accountNumber", accountNumber).findList();
+		return ok(listtransactions.render("Transactions",  txList));
+	}
 }

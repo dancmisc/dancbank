@@ -1,0 +1,25 @@
+@(message: String, lodgementForm: Form[FinancialOperation])
+@implicitFieldConstructor = @{ helper.FieldConstructor(twitterBootstrapInput.render) }
+
+@main("Welcome to Play 2.0") {
+
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a id="titleLink" class="brand" href="/">@message.toUpperCase</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        @helper.form(action = routes.Application.makeLodgement(), 'class -> "well form-horizontal") {
+            @helper.inputText(lodgementForm("accountNumber"), '_label -> "Account Number")
+            @helper.inputText(lodgementForm("amount"), '_label -> "Amount")
+            <input type="hidden" name="type" value="lodgement" />
+            <div class="controls">
+                <input type="submit" value="Make Lodgement" class="btn btn-primary"/>
+            </div>
+        }
+    </div>
+
+}

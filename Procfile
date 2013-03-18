@@ -1,2 +1,4 @@
-web: target/start -Dhttp.port=${PORT} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=$DATABASE_URL ${JAVA_OPTS}
+web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS}
+
+
 
